@@ -1,26 +1,81 @@
 @import "tailwindcss";
 
+/* ========= CSS Variables ========= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f172a;
+  --foreground: #0f172a;
+
+  /* Base colors */
+  --midnight: #0f172a;
+  --slate: #64748b;
+  --ice: #f8fafc;
+  --deep: #0a0a0a;
+
+  /* Neon variants */
+  --neon-cyan: #00f0ff;
+  --neon-pink: #ff4bf2;
+  --neon-lime: #a8ff00;
+  --electric: #bf00ff;
+  --sunset: #ff5e3a;
+
+  /* Gradient Brand Colors */
+  --darkBlue: #061331;
+  --turquoise: #43D0CB;
+  --lightBlue: #0088FF;
+
+  /* Fonts */
+  --font-sans: "Roboto", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
 }
 
+/* ========= Tailwind Theme Bindings ========= */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-midnight: var(--midnight);
+  --color-slate: var(--slate);
+  --color-ice: var(--ice);
+  --color-deep: var(--deep);
+
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-pink: var(--neon-pink);
+  --color-neon-lime: var(--neon-lime);
+  --color-electric: var(--electric);
+  --color-sunset: var(--sunset);
+
+  --color-darkBlue: var(--darkBlue);
+  --color-turquoise: var(--turquoise);
+  --color-lightBlue: var(--lightBlue);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
+/* ========= Light/Dark Mode ========= */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #0f172a;
     --foreground: #ededed;
   }
 }
 
+/* ========= Global Styles ========= */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.box {
+  @apply max-w-[1344px];
+}
+
+/* ========= Utilities ========= */
+.bg-gradientBg {
+  background: transparent linear-gradient(3deg, var(--lightBlue) 0%, var(--darkBlue) 100%) 0% 0% no-repeat padding-box;
 }
