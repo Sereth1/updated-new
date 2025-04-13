@@ -140,7 +140,7 @@ export default function ChatInterface({
   };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] bg-[#061331]">
+    <div className="flex h-[calc(100vh)] bg-[#061331]">
       {/* Chat History Sidebar */}
       <div className="w-80 border-r border-gray-800 bg-gray-900/20 p-4">
         <h2 className="text-xl font-semibold mb-4 text-gray-200">
@@ -163,7 +163,7 @@ export default function ChatInterface({
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col ">
         {/* Messages Area */}
         <div className="flex-1 overflow-y-auto p-4">
           <div className="max-w-4xl mx-auto">
@@ -201,7 +201,7 @@ export default function ChatInterface({
         </div>
 
         {/* Input Area */}
-        <div className="border-t border-gray-800 p-4">
+        <div className="border-t border-gray-800 p-4 mt-20">
           <div className="max-w-4xl mx-auto">
             <form
               onSubmit={handleSubmit}

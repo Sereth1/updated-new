@@ -1,99 +1,176 @@
 "use client";
 
-import { useAuth } from "@/providers/auth-provider";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { signOut } from "@/lib/auth-client";
+import { DashboardStats } from "@/components/pages/dashboard/DashboardStats";
+import { ProductivityStats } from "@/components/pages/dashboard/ProductivityStats";
+import { UsageChart } from "@/components/pages/dashboard/UsageChart";
+import { TopAffiliates } from "@/components/pages/dashboard/TopAffiliates";
+import { ConversationInsights } from "@/components/pages/dashboard/ConversationInsights";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardActionButton,
+} from "@/components/cards/Card";
+import {
+  HiPlus,
+  HiOutlineChatAlt,
+  HiOutlineSparkles,
+  HiOutlineCode,
+  HiOutlineLightningBolt,
+} from "react-icons/hi";
+
+const quickActions = [
+  { name: "New Chat", icon: HiOutlineChatAlt },
+  { name: "AI Agents", icon: HiOutlineSparkles },
+  { name: "Tools", icon: HiOutlineCode },
+  { name: "Challenges", icon: HiOutlineLightningBolt },
+];
+
+const recommendations = [
+  {
+    title: "Marketing Copywriter",
+    description: "Generate compelling ad copy.",
+  },
+  {
+    title: "Image Generator",
+    description: "Create stunning visuals.",
+  },
+  {
+    title: "Optimize Logistics Network",
+    description: "High reward challenge!",
+  },
+];
 
 export default function DashboardPage() {
-  const { user, session, loading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !session) {
-      router.replace("/auth");
-    }
-  }, [loading, session, router]);
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      router.replace("/auth");
-    } catch (error) {
-      console.error("Failed to sign out:", error);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-midnight">
-        <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-neon-cyan border-t-transparent"></div>
-          <p className="mt-4 text-sm text-slate">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!session || !user) {
-    return null;
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-midnight to-deep p-8">
-      <div className="mx-auto max-w-4xl">
-        <div className="relative rounded-2xl bg-white/5 p-8 backdrop-blur-lg">
-          <div className="absolute inset-x-0 -top-px mx-auto h-px w-3/4 bg-gradient-to-r from-transparent via-neon-cyan to-transparent" />
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-white mb-2">
+          Welcome back, User!
+        </h1>
+        <p className="text-gray-400">
+          Here's a quick overview of your AGiOS workspace.
+        </p>
+      </div>
 
-          <div className="flex items-center justify-between">
-            <h1 className="bg-gradient-to-r from-neon-cyan via-electric to-neon-pink bg-clip-text text-4xl font-bold text-transparent">
-              Welcome, {user.name}!
-            </h1>
-            <button
-              onClick={handleSignOut}
-              className="group relative overflow-hidden rounded-lg bg-sunset/10 px-4 py-2 text-sunset transition-all hover:bg-sunset/20"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-sunset/10 to-transparent translate-x-[-100%] group-hover:animate-shimmer" />
-              Sign Out
-            </button>
+      <div className="space-y-6">
+        {/* Top Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Left Column - Stats and Chart */}
+          <div className="lg:col-span-8 space-y-6">
+            <DashboardStats />
+            <UsageChart />
           </div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <div className="rounded-lg bg-white/5 p-6 ring-1 ring-white/10">
-              <h2 className="text-xl font-semibold text-neon-cyan">
-                Profile Info
-              </h2>
-              <div className="mt-4 space-y-2 text-ice">
-                <p>Email: {user.email}</p>
-                {user.metadata?.username && (
-                  <p>Username: {user.metadata.username}</p>
-                )}
-                {user.metadata?.address && (
-                  <p>Address: {user.metadata.address}</p>
-                )}
-                {user.metadata?.birthDate && (
-                  <p>Birth Date: {user.metadata.birthDate}</p>
-                )}
-              </div>
-            </div>
+          {/* Right Column - Quick Actions and Recommendations */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* Quick Actions */}
+            <Card variant="glass">
+              <CardHeader>
+                <h2 className="text-xl font-semibold text-white">
+                  Quick Actions
+                </h2>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4">
+                  {quickActions.map((action) => {
+                    const Icon = action.icon;
+                    return (
+                      <button
+                        key={action.name}
+                        className="flex flex-col items-center justify-center p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                      >
+                        <Icon className="w-6 h-6 text-neon-cyan mb-2" />
+                        <span className="text-sm text-white">
+                          {action.name}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
 
-            <div className="rounded-lg bg-white/5 p-6 ring-1 ring-white/10">
-              <h2 className="text-xl font-semibold text-neon-pink">
-                Account Status
-              </h2>
-              <div className="mt-4 space-y-2 text-ice">
-                <p>Provider: {session.provider}</p>
-                <p>
-                  Last Login: {new Date(session.lastLogin).toLocaleString()}
-                </p>
-                <p>
-                  Session Expires:{" "}
-                  {new Date(session.expiresAt).toLocaleString()}
-                </p>
-              </div>
-            </div>
+            {/* Recommendations */}
+            <Card variant="glass">
+              <CardHeader>
+                <h2 className="text-xl font-semibold text-white">
+                  Recommendations
+                </h2>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {recommendations.map((rec) => (
+                    <div
+                      key={rec.title}
+                      className="p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
+                    >
+                      <h3 className="text-white font-medium">{rec.title}</h3>
+                      <p className="text-sm text-gray-400">{rec.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
+
+        {/* Bottom Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Productivity Stats */}
+          <div className="lg:col-span-4">
+            <ProductivityStats />
+          </div>
+
+          {/* Top Affiliates */}
+          <div className="lg:col-span-4">
+            <TopAffiliates />
+          </div>
+
+          {/* Conversation Insights */}
+          <div className="lg:col-span-4">
+            <ConversationInsights />
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <Card variant="glass">
+          <CardHeader>
+            <h2 className="text-xl font-semibold text-white">
+              Recent Activity
+            </h2>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {[
+                {
+                  title: "Discussed project requirements",
+                  time: "1h ago",
+                },
+                {
+                  title: "Ran Code Assistant on main.py",
+                  time: "3h ago",
+                },
+                {
+                  title: 'Submitted entry for "Solar Panel Efficiency"',
+                  time: "Yesterday",
+                },
+                {
+                  title: "Used Data Analyzer on sales_data.csv",
+                  time: "2 days ago",
+                },
+              ].map((activity, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 bg-white/5 rounded-lg"
+                >
+                  <span className="text-white">{activity.title}</span>
+                  <span className="text-sm text-gray-400">{activity.time}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
