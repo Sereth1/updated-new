@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { pool } from "../db";
-import { AuthConfig } from "./types";
+import { AuthConfig, User, Session } from "./types";
 
 if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET) {
   throw new Error(
@@ -35,13 +35,25 @@ export const auth = betterAuth({
     updateAge: defaultConfig.updateAge,
   },
   callbacks: {
-    async session({ session, user }) {
+    async session({ session, user }: { session: Session; user: User }) {
       if (session.user) {
         session.user.id = user.id;
       }
       return session;
     },
-    async signUp({ user, account }) {
+    async signUp({
+      user,
+      account,
+    }: {
+      user: User;
+      account: {
+        provider: string;
+        last_name?: string;
+        user_name?: string;
+        address?: string;
+        birth_date?: string;
+      };
+    }) {
       if (account?.provider === "email") {
         await pool.query(
           `UPDATE users SET 
