@@ -52,7 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       const result = await authClient.signIn(data);
       setSession(result.session);
-      setUser(result.user);
+      setUser(result.session.user);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Sign in failed"));
@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       const result = await authClient.signUp(data);
       setSession(result.session);
-      setUser(result.user);
+      setUser(result.session.user);
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err : new Error("Sign up failed"));
