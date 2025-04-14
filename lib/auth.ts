@@ -8,6 +8,7 @@ if (!process.env.DATABASE_URL) {
 }
 
 // Initialize Neon connection
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const sql = neon(process.env.DATABASE_URL);
 
 // Create a connection pool with better configuration

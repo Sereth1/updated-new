@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useAuth } from "@/providers/auth-provider";
-import gsap from "gsap";
 import { signIn, signUp } from "@/lib/auth-client";
+import gsap from "gsap";
+import { useEffect, useRef, useState } from "react";
 
 interface AuthFormProps {
   mode: "login" | "signup";
@@ -111,10 +110,12 @@ export function AuthForm({ mode }: AuthFormProps) {
           password,
           name: `${firstName} ${lastName}`,
           callbackURL: "/dashboard",
-          metadata: {
-            username,
-            address,
-            birthDate,
+          fetchOptions: {
+            body: {
+              username,
+              address,
+              birthDate,
+            },
           },
         });
       }
