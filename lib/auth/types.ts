@@ -19,4 +19,8 @@ export interface AuthConfig {
     secret: string;
     expiresIn: string;
   };
+  autoSignIn: boolean;
+  maxAge: number;
+  updateAge: number;
+  trustedOrigins: string[];
 }
