@@ -98,11 +98,11 @@ const options = {
   },
   interaction: {
     intersect: false,
-    mode: "index",
+    mode: "index" as const,
   },
   elements: {
     line: {
-      borderJoinStyle: "round",
+      borderJoinStyle: "round" as const,
     },
   },
 };
