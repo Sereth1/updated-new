@@ -9,6 +9,14 @@ if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET) {
 }
 
 const defaultConfig: AuthConfig = {
+  github: {
+    clientId: process.env.GITHUB_CLIENT_ID || "",
+    clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET || "your-secret-key",
+    expiresIn: "30d",
+  },
   autoSignIn: true,
   maxAge: 30 * 24 * 60 * 60, // 30 days
   updateAge: 24 * 60 * 60, // 24 hours
