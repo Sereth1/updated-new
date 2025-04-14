@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 export async function POST(req: Request) {
   try {
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     const base64 = buffer.toString("base64");
 
     // Call OpenAI API with the file
-    const completion = await openai.createChatCompletion({
+    const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [
         {
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     });
 
     const response =
-      completion.data.choices[0]?.message?.content ||
+      completion.choices[0]?.message?.content ||
       "I apologize, but I couldn't analyze the file.";
 
     return NextResponse.json({ response });

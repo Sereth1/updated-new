@@ -1,15 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
-import { Configuration, OpenAIApi } from "openai";
+import OpenAI from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Anthropic from "@anthropic-ai/sdk";
 import { Ollama } from "ollama";
 
 // Initialize providers
-const openai = new OpenAIApi(
-  new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
-  })
-);
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
 const anthropic = new Anthropic({
@@ -20,7 +19,7 @@ const ollama = new Ollama({
 });
 
 async function generateOpenAIResponse(message: string, model: string) {
-  const completion = await openai.createChatCompletion({
+  const completion = await openai.chat.completions.create({
     model,
     messages: [
       {
@@ -34,7 +33,7 @@ async function generateOpenAIResponse(message: string, model: string) {
     max_tokens: 500,
   });
 
-  return completion.data.choices[0]?.message?.content;
+  return completion.choices[0]?.message?.content || undefined;
 }
 
 async function generateGeminiResponse(message: string) {
@@ -45,12 +44,17 @@ async function generateGeminiResponse(message: string) {
 }
 
 async function generateClaudeResponse(message: string) {
-  const message = await anthropic.messages.create({
+  const response = await anthropic.messages.create({
     model: "claude-3-opus-20240229",
     max_tokens: 1000,
     messages: [{ role: "user", content: message }],
   });
-  return message.content[0].text;
+
+  const content = response.content[0];
+  if ("type" in content && content.type === "text") {
+    return content.text;
+  }
+  return undefined;
 }
 
 async function generateOllamaResponse(message: string, model: string) {

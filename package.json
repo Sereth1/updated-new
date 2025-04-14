@@ -10,6 +10,8 @@
     "migrate:auth": "tsx scripts/migrate-auth.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@google/generative-ai": "^0.24.0",
     "@neondatabase/serverless": "^1.0.0",
     "@supabase/supabase-js": "^2.49.4",
     "better-auth": "^1.2.6",
@@ -17,6 +19,8 @@
     "clsx": "^2.1.1",
     "gsap": "^3.12.7",
     "next": "15.3.0",
+    "ollama": "^0.5.14",
+    "openai": "^4.93.0",
     "pg": "^8.14.1",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
