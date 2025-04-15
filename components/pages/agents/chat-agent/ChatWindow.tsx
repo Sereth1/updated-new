@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { HiPaperAirplane } from "react-icons/hi";
+import { HiPaperAirplane } from "react-icons/hi2";
 import { TypingAnimation } from "./TypingAnimation";
 
 interface Message {

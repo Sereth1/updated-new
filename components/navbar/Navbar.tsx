@@ -64,7 +64,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className=" top-0 z-50 w-full border-b border-gray-800 bg-[#061331]">
+    <nav className="  z-50 w-full border-b border-gray-800 bg-[#061331]">
       <div className="px-6 py-3 lg:px-8">
         <div className="flex items-center justify-between max-w-7xl mx-auto">
           <div className="flex-shrink-0 pl-4">
@@ -79,7 +79,7 @@ export const Navbar = () => {
                 const Icon = link.icon;
                 if (link.children) {
                   return (
-                    <div key={link.label} className="relative">
+                    <div key={link.label} className="relative z-50">
                       <button
                         onClick={() =>
                           setOpenDropdown(

@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { HiChevronDown, HiLockClosed, HiSparkles } from "react-icons/hi";
+import {
+  HiChevronDown,
+  HiLockClosed,
+  HiSparkles,
+  HiChevronLeft,
+  HiChevronRight,
+} from "react-icons/hi";
 import { useAuth } from "@/providers/auth-provider";
 
 interface Agent {
@@ -160,36 +166,67 @@ function AgentDropdown({
   );
 }
 
-export function AgentPanel() {
+interface AgentPanelProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+export function AgentPanel({ isOpen, onToggle }: AgentPanelProps) {
   const [openCategory, setOpenCategory] = useState<string>("Free Tools");
   const categories = Array.from(new Set(agents.map((a) => a.category)));
 
   return (
-    <div className="w-80 border-l border-white/10 bg-darkBlue/50 flex flex-col">
-      {/* Header */}
-      <div className="p-6 border-b border-white/10">
-        <h2 className="text-xl font-semibold text-white">
-          Welcome to your Agent Playground 🤖
-        </h2>
-        <p className="text-white/60 mt-2">
-          Use free tools or unlock advanced agent powers!
-        </p>
-      </div>
+    <div
+      className={`${
+        isOpen ? "w-80" : "w-12"
+      } transition-all duration-300 relative border-l border-white/10 bg-darkBlue/50 flex flex-col`}
+    >
+      {/* Toggle Button */}
+      <button
+        onClick={onToggle}
+        className="absolute -left-3 top-1/2 transform -translate-y-1/2 z-10 bg-darkBlue border border-white/10 rounded-full p-1 text-white/60 hover:text-white transition-colors"
+      >
+        {isOpen ? (
+          <HiChevronRight className="w-4 h-4" />
+        ) : (
+          <HiChevronLeft className="w-4 h-4" />
+        )}
+      </button>
 
-      {/* Agent Categories */}
-      <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-        {categories.map((category) => (
-          <AgentDropdown
-            key={category}
-            category={category}
-            agents={agents.filter((a) => a.category === category)}
-            isOpen={openCategory === category}
-            onToggle={() =>
-              setOpenCategory(openCategory === category ? "" : category)
-            }
-          />
-        ))}
-      </div>
+      {isOpen && (
+        <>
+          {/* Header */}
+          <div className="p-6 border-b border-white/10">
+            <h2 className="text-xl font-semibold text-white">
+              Welcome to your Agent Playground 🤖
+            </h2>
+            <p className="text-white/60 mt-2">
+              Use free tools or unlock advanced agent powers!
+            </p>
+          </div>
+
+          {/* Agent Categories */}
+          <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+            {categories.map((category) => (
+              <AgentDropdown
+                key={category}
+                category={category}
+                agents={agents.filter((a) => a.category === category)}
+                isOpen={openCategory === category}
+                onToggle={() =>
+                  setOpenCategory(openCategory === category ? "" : category)
+                }
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {!isOpen && (
+        <div className="flex-1 flex items-center justify-center">
+          <HiSparkles className="w-6 h-6 text-white/40" />
+        </div>
+      )}
     </div>
   );
 }
