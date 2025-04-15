@@ -14,17 +14,28 @@ import {
   HiOutlineBell,
   HiTemplate,
   HiUser,
+  HiChevronDown,
 } from "react-icons/hi";
 
 interface NavLink {
   href: string;
   label: string;
   icon: React.ElementType;
+  children?: { href: string; label: string }[];
 }
 
 const baseNavLinks: NavLink[] = [
   { href: "/", label: "Home", icon: HiHome },
   { href: "/chat", label: "Chat", icon: HiChat },
+  {
+    href: "#",
+    label: "Agents",
+    icon: HiTemplate,
+    children: [
+      { href: "/chat-agent", label: "Chat Agents" },
+      { href: "/agents-about", label: "About Agents" },
+    ],
+  },
   { href: "/about", label: "About", icon: HiInformationCircle },
 ];
 
@@ -36,11 +47,11 @@ const dashboardLink: NavLink = {
 
 export const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
   const { user, signOut, loading } = useAuth();
 
-  // Dynamically add Dashboard link when user is logged in
   const navLinks = user ? [...baseNavLinks, dashboardLink] : baseNavLinks;
 
   const handleLogout = async () => {
@@ -66,6 +77,46 @@ export const Navbar = () => {
             <div className="flex items-center space-x-4">
               {navLinks.map((link) => {
                 const Icon = link.icon;
+                if (link.children) {
+                  return (
+                    <div key={link.label} className="relative">
+                      <button
+                        onClick={() =>
+                          setOpenDropdown(
+                            openDropdown === link.label ? null : link.label
+                          )
+                        }
+                        className={`flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-white/10 ${
+                          openDropdown === link.label
+                            ? "text-white bg-white/10"
+                            : "text-white/60"
+                        }`}
+                      >
+                        <Icon className="w-5 h-5 mr-2" />
+                        {link.label}
+                        <HiChevronDown
+                          className={`ml-1 w-4 h-4 transition-transform ${
+                            openDropdown === link.label ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                      {openDropdown === link.label && (
+                        <div className="absolute left-0 mt-2 w-48 rounded-lg bg-[#0a1f4d] border border-white/10 shadow-lg py-1">
+                          {link.children.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className="block px-4 py-2 text-sm text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                              onClick={() => setOpenDropdown(null)}
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
                 return (
                   <Link
                     key={link.href}
@@ -112,14 +163,14 @@ export const Navbar = () => {
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className="flex items-center space-x-2 p-2 rounded-lg hover:bg-white/10 transition-colors"
                   >
-                    <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center overflow-hidden">
+                    <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
                       {user?.image ? (
                         <Image
                           src={user.image}
-                          alt={user.name || "User avatar"}
+                          alt={user.name || "User"}
                           width={32}
                           height={32}
-                          className="object-cover"
+                          className="rounded-full"
                         />
                       ) : (
                         <HiUser className="w-5 h-5 text-white" />
