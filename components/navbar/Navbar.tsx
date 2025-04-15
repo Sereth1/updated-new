@@ -26,7 +26,7 @@ interface NavLink {
 
 const baseNavLinks: NavLink[] = [
   { href: "/", label: "Home", icon: HiHome },
-  { href: "/chat", label: "Chat", icon: HiChat },
+  { href: "/llm-chat", label: "Llm Chat", icon: HiChat },
   {
     href: "#",
     label: "Agents",
