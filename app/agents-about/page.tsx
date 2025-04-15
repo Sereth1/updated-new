@@ -1,36 +1,27 @@
 "use client";
 
-import { Features } from "@/components/pages/agents/Features";
-import { Header } from "@/components/pages/agents/Header";
+import { HeaderWithDotPattern } from "@/components/headers/HeaderWithDotPattern";
+import { SmartSearchAgent } from "@/components/pages/agents/SmartSearchAgent";
+import { CryptoPriceTracker } from "@/components/pages/agents/CryptoPriceTracker";
+import { MultiAgentResearchSystem } from "@/components/pages/agents/MultiAgentResearchSystem";
 import { Intro } from "@/components/pages/agents/Intro";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect, useRef } from "react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { Features } from "@/components/pages/agents/Features";
 
 export default function AgentsAboutPage() {
-  const mainRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".animate-in", {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out",
-      });
-    }, mainRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div ref={mainRef} className="min-h-screen bg-darkBlue">
-      <Header />
+    <div className="min-h-screen bg-darkBlue">
+      <HeaderWithDotPattern
+        title="AI Agent Use Cases"
+        description="Explore how our AI agents can automate and enhance your workflows"
+      />
       <Intro />
       <Features />
+      <div className="container mx-auto px-4 py-12 space-y-12">
+        <SmartSearchAgent />
+
+        <CryptoPriceTracker />
+        <MultiAgentResearchSystem />
+      </div>
     </div>
   );
 }

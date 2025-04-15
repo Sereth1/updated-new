@@ -180,3 +180,8 @@ html {
     @apply bg-background text-foreground;
   }
 }
+.react-flow__node {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}

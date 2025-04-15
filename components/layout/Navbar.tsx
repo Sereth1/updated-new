@@ -5,9 +5,66 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 
+function AuthLinks() {
+  const { user, loading } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || loading) {
+    return null;
+  }
+
+  return user ? (
+    <Link
+      href="/dashboard"
+      className="text-white/60 hover:text-white transition-colors"
+    >
+      Dashboard
+    </Link>
+  ) : (
+    <Link
+      href="/auth"
+      className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+    >
+      Sign In
+    </Link>
+  );
+}
+
+function MobileAuthLinks() {
+  const { user, loading } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted || loading) {
+    return null;
+  }
+
+  return user ? (
+    <Link
+      href="/dashboard"
+      className="block text-white/60 hover:text-white transition-colors"
+    >
+      Dashboard
+    </Link>
+  ) : (
+    <Link
+      href="/auth"
+      className="block px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+    >
+      Sign In
+    </Link>
+  );
+}
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, loading } = useAuth();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -40,22 +97,7 @@ export function Navbar() {
             >
               About
             </Link>
-            {!loading &&
-              (user ? (
-                <Link
-                  href="/dashboard"
-                  className="text-white/60 hover:text-white transition-colors"
-                >
-                  Dashboard
-                </Link>
-              ) : (
-                <Link
-                  href="/auth"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  Sign In
-                </Link>
-              ))}
+            <AuthLinks />
           </div>
 
           {/* Mobile Menu Button */}
@@ -84,24 +126,7 @@ export function Navbar() {
             >
               About
             </Link>
-            {!loading &&
-              (user ? (
-                <Link
-                  href="/dashboard"
-                  className="block text-white/60 hover:text-white transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Dashboard
-                </Link>
-              ) : (
-                <Link
-                  href="/auth"
-                  className="block px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Sign In
-                </Link>
-              ))}
+            <MobileAuthLinks />
           </div>
         )}
       </div>
