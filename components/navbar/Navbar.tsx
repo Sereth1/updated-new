@@ -32,8 +32,8 @@ const baseNavLinks: NavLink[] = [
     label: "Agents",
     icon: HiTemplate,
     children: [
-      { href: "/chat-agent", label: "Chat Agents" },
-      { href: "/agents-about", label: "About Agents" },
+      { href: "/agents/chat-agent", label: "Chat Agents" },
+      { href: "/agents/about", label: "About Agents" },
     ],
   },
   { href: "/about", label: "About", icon: HiInformationCircle },
