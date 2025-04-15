@@ -1,16 +1,15 @@
-import { PurpleHero } from "@/components/hero/PurpleHero";
+import { HeaderWithDotPattern } from "@/components/headers/HeaderWithDotPattern";
 
 export default function Home() {
   return (
-    <main className="">
-      <PurpleHero
+    <main className="bg-darkBlue">
+      <HeaderWithDotPattern
         title="AGiOS Stay Updated "
-        variant="slate"
-        dotSize="small"
-        dotOpacity="light"
-        glowIntensity="none"
-        className="border-t border-indigo-500/10"
-      ></PurpleHero>
+        description="The new way to stay updated with the latest news and events"
+      />
+      <div></div>
+      <div></div>
+      <div></div>
     </main>
   );
 }
