@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Features } from "@/components/pages/agents/Features";
 import { Header } from "@/components/pages/agents/Header";
 import { Intro } from "@/components/pages/agents/Intro";
-import { Features } from "@/components/pages/agents/Features";
-import { CTA } from "@/components/pages/agents/CTA";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,7 +31,6 @@ export default function AgentsAboutPage() {
       <Header />
       <Intro />
       <Features />
-      <CTA />
     </div>
   );
 }
