@@ -6,6 +6,7 @@ import { CryptoPriceTracker } from "@/components/pages/agents/CryptoPriceTracker
 import { MultiAgentResearchSystem } from "@/components/pages/agents/MultiAgentResearchSystem";
 import { Intro } from "@/components/pages/agents/Intro";
 import { Features } from "@/components/pages/agents/Features";
+import { PricingSection } from "@/components/pages/agents/PricingSection";
 
 export default function AgentsAboutPage() {
   return (
@@ -18,10 +19,10 @@ export default function AgentsAboutPage() {
       <Features />
       <div className="container mx-auto px-4 py-12 space-y-12">
         <SmartSearchAgent />
-
         <CryptoPriceTracker />
         <MultiAgentResearchSystem />
       </div>
+      <PricingSection />
     </div>
   );
 }
